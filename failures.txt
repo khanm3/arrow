@@ -1,0 +1,47 @@
+============================================================= FAILURES ==============================================================
+_____________________________________________ TestModule.test_get_locale_by_class_name ______________________________________________
+
+self = <tests.test_locales.TestModule object at 0x10f9792b0>, mocker = <pytest_mock.plugin.MockerFixture object at 0x1104b4460>
+
+    def test_get_locale_by_class_name(self, mocker):
+        mock_locale_cls = mocker.Mock()
+        mock_locale_obj = mock_locale_cls.return_value = mocker.Mock()
+    
+        globals_fn = mocker.Mock()
+        globals_fn.return_value = {"NonExistentLocale": mock_locale_cls}
+    
+        with pytest.raises(ValueError):
+            arrow.locales.get_locale_by_class_name("NonExistentLocale")
+    
+        mocker.patch.object(locales, "globals", globals_fn)
+>       result = arrow.locales.get_locale_by_class_name("NonExistentLocale")
+
+tests/test_locales.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+>   raise ValueError(f"Unsupported locale {name!r}.")
+E   ValueError: Unsupported locale 'NonExistentLocale'.
+
+arrow/locales.py:78: ValueError
+
+---------- coverage: platform darwin, python 3.9.12-final-0 ----------
+Name                 Stmts   Miss  Cover   Missing
+--------------------------------------------------
+arrow/__init__.py        7      7     0%   1-21
+arrow/_version.py        1      1     0%   1
+arrow/api.py            30     30     0%   7-126
+arrow/arrow.py         558    558     0%   8-1886
+arrow/constants.py      11     11     0%   3-41
+arrow/factory.py        89     89     0%   9-348
+arrow/formatter.py     102    102     0%   3-152
+arrow/locales.py      1167   1167     0%   3-6480
+arrow/parser.py        315    315     0%   3-779
+arrow/util.py           45     45     0%   3-117
+--------------------------------------------------
+TOTAL                 2325   2325     0%
+Coverage XML written to file coverage.xml
+
+FAIL Required test coverage of 99% not reached. Total coverage: 0.00%
+====================================================== short test summary info ======================================================
+FAILED tests/test_locales.py::TestModule::test_get_locale_by_class_name - ValueError: Unsupported locale 'NonExistentLocale'.
+======================================= 1 failed, 1830 passed, 1 xfailed, 1 xpassed in 49.19s =======================================
