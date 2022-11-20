@@ -11,7 +11,7 @@ exec(version, about)
 
 extensions = [
     Extension(
-        "Cython",
+        "*",
         ["arrow/*.py"],
         define_macros=[("CYTHON_TRACE", "1")],
     )
